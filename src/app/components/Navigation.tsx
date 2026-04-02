@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router";
-import { Home, Heart, Wind, Music, BarChart3, Sun } from "lucide-react";
+import { Home, Heart, Wind, BarChart3, Sun } from "lucide-react";
 
 export function Navigation() {
   const location = useLocation();
@@ -8,7 +8,6 @@ export function Navigation() {
     { path: "/", icon: Home, label: "Home" },
     { path: "/mood", icon: Heart, label: "Mood" },
     { path: "/breathing", icon: Wind, label: "Breathe" },
-    { path: "/sounds", icon: Music, label: "Sounds" },
     { path: "/outdoor", icon: Sun, label: "Outdoor" },
     { path: "/dashboard", icon: BarChart3, label: "Track" },
   ];

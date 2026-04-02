@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { Sparkles, Heart, Wind, Music } from "lucide-react";
+import { Sparkles, Heart, Wind, Sun } from "lucide-react";
 import { Button } from "../components/ui/button";
 
 export function Home() {
@@ -21,11 +21,11 @@ export function Home() {
       path: "/breathing",
     },
     {
-      icon: Music,
-      title: "Calming Sounds",
-      description: "Peaceful soundscapes",
-      color: "from-purple-400 to-indigo-400",
-      path: "/sounds",
+      icon: Sun,
+      title: "Outdoor Activities",
+      description: "Get outside and explore",
+      color: "from-orange-400 to-yellow-400",
+      path: "/outdoor",
     },
   ];
 
