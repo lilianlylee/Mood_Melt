@@ -1,7 +1,7 @@
 
-  # Mood Melt Project Proposal
+  # mood melt
 
-  This is a code bundle for Mood Melt Project Proposal. The original project is available at https://www.figma.com/design/no3Z4lAQ2Dh3zFuzrluCmD/Mood-Melt-Project-Proposal.
+  This is a code bundle for mood melt. The original project is available at https://www.figma.com/design/no3Z4lAQ2Dh3zFuzrluCmD/mood-melt.
 
   ## Running the code
 

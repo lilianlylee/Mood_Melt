@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "../components/ui/button";
-import { Heart, Sparkles, RefreshCw, Home } from "lucide-react";
+import { Heart, Sparkles, RefreshCw, Home, ArrowRight } from "lucide-react";
 
 interface Quote {
   text: string;
@@ -164,6 +164,27 @@ export function Quotes() {
             <Home className="w-5 h-5" />
             Back to Home
           </Button>
+        </div>
+
+        {/* Call to Action - Outdoor Activities */}
+        <div className="bg-gradient-to-r from-green-100 via-blue-100 to-purple-100 rounded-3xl p-8 border-2 border-green-300 space-y-4 shadow-xl">
+          <div className="text-center space-y-3">
+            <div className="text-5xl mb-2">🌳✨</div>
+            <h2 className="text-2xl font-bold text-purple-900">
+              Ready for the Next Step?
+            </h2>
+            <p className="text-purple-700 text-lg">
+              Real healing happens when we connect with nature and people, not screens.
+              Let's help you build healthier habits!
+            </p>
+            <Button
+              onClick={() => navigate("/outdoor")}
+              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-10 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 mx-auto mt-4"
+            >
+              Explore Outdoor Activities
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
 
         {/* Bottom message */}

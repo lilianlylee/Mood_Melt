@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { motion } from "motion/react";
-import { Play, Pause, RotateCcw } from "lucide-react";
+import { Play, Pause, RotateCcw, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/button";
 
 type Phase = "inhale" | "hold" | "exhale" | "rest";
 
 export function Breathing() {
+  const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
   const [phase, setPhase] = useState<Phase>("inhale");
   const [completedCycles, setCompletedCycles] = useState(0);
@@ -132,6 +134,19 @@ export function Breathing() {
             💡 <strong>Tip:</strong> Find a quiet space, sit comfortably, and focus on your breath
           </p>
         </div>
+
+        {/* Continue Button - Shows after 3 cycles */}
+        {completedCycles >= 3 && (
+          <div className="flex justify-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Button
+              onClick={() => navigate("/reflection")}
+              className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+            >
+              Continue to Reflection
+              <ArrowRight className="w-5 h-5" />
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

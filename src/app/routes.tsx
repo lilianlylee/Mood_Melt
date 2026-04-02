@@ -5,7 +5,9 @@ import { Breathing } from "./pages/Breathing";
 import { Sounds } from "./pages/Sounds";
 import { Dashboard } from "./pages/Dashboard";
 import { Journal } from "./pages/Journal";
+import { ReflectionJournal } from "./pages/ReflectionJournal";
 import { Quotes } from "./pages/Quotes";
+import { OutdoorActivities } from "./pages/OutdoorActivities";
 import { Layout } from "./components/Layout";
 
 export const router = createBrowserRouter([
@@ -19,7 +21,9 @@ export const router = createBrowserRouter([
       { path: "sounds", element: <Sounds /> },
       { path: "dashboard", element: <Dashboard /> },
       { path: "journal", element: <Journal /> },
+      { path: "reflection", element: <ReflectionJournal /> },
       { path: "quotes", element: <Quotes /> },
+      { path: "outdoor", element: <OutdoorActivities /> },
     ],
   },
 ]);
