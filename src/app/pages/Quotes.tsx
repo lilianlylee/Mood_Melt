@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "../components/ui/button";
-import { Heart, Sparkles, RefreshCw, Home, ArrowRight } from "lucide-react";
+import {
+  Heart,
+  Sparkles,
+  RefreshCw,
+  Home,
+  ArrowRight,
+} from "lucide-react";
 
 interface Quote {
   text: string;
@@ -84,7 +90,9 @@ export function Quotes() {
 
   useEffect(() => {
     // Randomly select a starting quote
-    setCurrentQuoteIndex(Math.floor(Math.random() * quotes.length));
+    setCurrentQuoteIndex(
+      Math.floor(Math.random() * quotes.length),
+    );
   }, []);
 
   return (
@@ -104,8 +112,8 @@ export function Quotes() {
         </div>
 
         {/* Quote Card */}
-        <div className="relative">
-          <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 rounded-3xl p-8 md:p-12 shadow-xl border-2 border-purple-200 space-y-6 transform transition-all duration-500 hover:scale-105">
+        <div className="relative space-y-6">
+          <div className="bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100 rounded-3xl p-8 md:p-12 shadow-xl border-2 border-purple-300 space-y-6">
             {/* Decorative elements */}
             <div className="absolute top-4 right-4 text-4xl opacity-20">
               <Sparkles className="w-12 h-12 text-purple-500" />
@@ -128,58 +136,58 @@ export function Quotes() {
               </footer>
             </blockquote>
           </div>
+
+          {/* Another Quote Button - Right under the quote */}
+          <div className="flex justify-center">
+            <Button
+              onClick={handleNextQuote}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <RefreshCw className="w-5 h-5" />
+              Another Quote
+            </Button>
+          </div>
         </div>
 
         {/* Encouragement Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-purple-200 shadow-md">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-purple-200 shadow-md cursor-default">
             <div className="text-3xl mb-3">🌟</div>
-            <h3 className="font-bold text-purple-900 mb-2">Remember</h3>
+            <h3 className="font-bold text-purple-900 mb-2">
+              Remember
+            </h3>
             <p className="text-purple-700 text-sm">
-              You're doing better than you think. Progress isn't always visible, but it's happening.
+              You're doing better than you think. Progress isn't
+              always visible, but it's happening.
             </p>
           </div>
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-purple-200 shadow-md">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-purple-200 shadow-md cursor-default">
             <div className="text-3xl mb-3">💪</div>
-            <h3 className="font-bold text-purple-900 mb-2">You're Strong</h3>
+            <h3 className="font-bold text-purple-900 mb-2">
+              You're Strong
+            </h3>
             <p className="text-purple-700 text-sm">
-              Every challenge you face is making you stronger. Keep believing in yourself.
+              Every challenge you face is making you stronger.
+              Keep believing in yourself.
             </p>
           </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col md:flex-row justify-center gap-4">
-          <Button
-            onClick={handleNextQuote}
-            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
-          >
-            <RefreshCw className="w-5 h-5" />
-            Another Quote
-          </Button>
-          <Button
-            onClick={() => navigate("/")}
-            className="bg-white hover:bg-purple-50 text-purple-600 px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all border border-purple-200 flex items-center justify-center gap-2"
-          >
-            <Home className="w-5 h-5" />
-            Back to Home
-          </Button>
         </div>
 
         {/* Call to Action - Outdoor Activities */}
-        <div className="bg-gradient-to-r from-green-100 via-blue-100 to-purple-100 rounded-3xl p-8 border-2 border-green-300 space-y-4 shadow-xl">
+        <div className="bg-gradient-to-r from-green-100 via-blue-100 to-purple-100 rounded-3xl p-8 border-2 border-green-300 space-y-4 shadow-xl cursor-default">
           <div className="text-center space-y-3">
             <div className="text-5xl mb-2">🌳✨</div>
             <h2 className="text-2xl font-bold text-purple-900">
               Ready for the Next Step?
             </h2>
             <p className="text-purple-700 text-lg">
-              Real healing happens when we connect with nature and people, not screens.
-              Let's help you build healthier habits!
+              Real healing happens when we connect with nature
+              and people, not screens. Let's help you build
+              healthier habits!
             </p>
             <Button
               onClick={() => navigate("/outdoor")}
-              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-10 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 mx-auto mt-4"
+              className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-10 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 mx-auto mt-4 cursor-pointer"
             >
               Explore Outdoor Activities
               <ArrowRight className="w-5 h-5" />
@@ -187,10 +195,22 @@ export function Quotes() {
           </div>
         </div>
 
+        {/* Back to Home Button */}
+        <div className="flex justify-center">
+          <Button
+            onClick={() => navigate("/")}
+            className="bg-white hover:bg-purple-50 text-purple-600 px-8 py-6 text-lg rounded-full shadow-md hover:shadow-lg transition-all border border-purple-200 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <Home className="w-5 h-5" />
+            Back to Home
+          </Button>
+        </div>
+
         {/* Bottom message */}
-        <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 border border-purple-200 text-center">
+        <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 border border-purple-200 text-center cursor-default">
           <p className="text-purple-800">
-            ✨ Remember: It's okay to ask for help. You're never alone. ✨
+            ✨ Remember: It's okay to ask for help. You're never
+            alone. ✨
           </p>
         </div>
       </div>

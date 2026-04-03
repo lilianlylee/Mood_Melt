@@ -129,6 +129,15 @@ export function OutdoorActivities() {
     }, 3000);
   };
 
+  const handleActivityClick = (activityName: string) => {
+    setSelectedActivity(activityName);
+    setShowTracker(true);
+    // Scroll to tracker section
+    setTimeout(() => {
+      document.getElementById("activity-tracker")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  };
+
   const totalMinutes = activities.reduce((sum, activity) => sum + activity.minutes, 0);
   const totalHours = Math.floor(totalMinutes / 60);
   const remainingMinutes = totalMinutes % 60;
@@ -236,7 +245,7 @@ export function OutdoorActivities() {
 
           {/* Activity Tracker Form */}
           {showTracker && (
-            <div className="bg-white border-2 border-green-200 rounded-2xl p-6 space-y-4 animate-in slide-in-from-top duration-300">
+            <div id="activity-tracker" className="bg-white border-2 border-green-200 rounded-2xl p-6 space-y-4 animate-in slide-in-from-top duration-300">
               <h3 className="font-bold text-purple-900 text-lg">Log Your Activity 📝</h3>
 
               <div className="space-y-3">
@@ -306,6 +315,7 @@ export function OutdoorActivities() {
             {activitySuggestions.map((activity) => (
               <div
                 key={activity.name}
+                onClick={() => handleActivityClick(activity.name)}
                 className="bg-white/80 backdrop-blur-sm rounded-2xl p-5 border-2 border-purple-100 hover:border-green-300 shadow-sm hover:shadow-md transition-all cursor-pointer group"
               >
                 <div className="text-4xl mb-3 group-hover:scale-110 transition-transform">

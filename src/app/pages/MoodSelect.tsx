@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Smile, Meh, Frown, Heart, Zap, Cloud, Sun, Moon } from "lucide-react";
-import { Button } from "../components/ui/button";
 
 interface Mood {
   id: string;
@@ -84,12 +83,12 @@ export function MoodSelect() {
     },
   ];
 
-  const handleSubmit = () => {
-    if (!selectedMood) return;
+  const handleMoodSelection = (moodId: string) => {
+    setSelectedMood(moodId);
 
     // Save to localStorage
     const moodEntry = {
-      mood: selectedMood,
+      mood: moodId,
       timestamp: new Date().toISOString(),
     };
 
@@ -97,15 +96,22 @@ export function MoodSelect() {
     existingMoods.push(moodEntry);
     localStorage.setItem("moodHistory", JSON.stringify(existingMoods));
 
+    // Save the selected mood for breathing page to reference
+    localStorage.setItem("currentMood", moodId);
+
     setSubmitted(true);
 
-    // Determine next page based on mood
+    // Determine next page and required cycles based on mood
     const positiveMoods = ["amazing", "happy", "calm"];
-    const nextPage = positiveMoods.includes(selectedMood) ? "/journal" : "/breathing";
+    let nextPage = "/journal";
+
+    if (!positiveMoods.includes(moodId)) {
+      nextPage = "/breathing";
+    }
 
     setTimeout(() => {
       navigate(nextPage);
-    }, 2000);
+    }, 1500);
   };
 
   if (submitted) {
@@ -159,7 +165,7 @@ export function MoodSelect() {
             return (
               <button
                 key={mood.id}
-                onClick={() => setSelectedMood(mood.id)}
+                onClick={() => handleMoodSelection(mood.id)}
                 className={`bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-md border-2 transition-all duration-300 hover:scale-105 ${
                   isSelected
                     ? "border-purple-500 shadow-xl ring-4 ring-purple-200"
@@ -179,18 +185,6 @@ export function MoodSelect() {
             );
           })}
         </div>
-
-        {/* Submit Button */}
-        {selectedMood && (
-          <div className="flex justify-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <Button
-              onClick={handleSubmit}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all"
-            >
-              Continue
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );

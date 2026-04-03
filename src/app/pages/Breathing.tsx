@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
-import { Play, Pause, RotateCcw, ArrowRight } from "lucide-react";
+import { Play, Pause, RotateCcw, ArrowRight, BookOpen } from "lucide-react";
 import { Button } from "../components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
 
 type Phase = "inhale" | "hold" | "exhale" | "rest";
 
@@ -11,6 +19,18 @@ export function Breathing() {
   const [isActive, setIsActive] = useState(false);
   const [phase, setPhase] = useState<Phase>("inhale");
   const [completedCycles, setCompletedCycles] = useState(0);
+  const [showJournalPrompt, setShowJournalPrompt] = useState(false);
+
+  // Get required cycles based on mood
+  const currentMood = localStorage.getItem("currentMood") || "";
+  const getRequiredCycles = () => {
+    if (currentMood === "okay") return 3;
+    if (currentMood === "tired" || currentMood === "sad") return 5;
+    if (currentMood === "stressed" || currentMood === "anxious") return 10;
+    return 3; // default
+  };
+
+  const requiredCycles = getRequiredCycles();
 
   const phaseConfig = {
     inhale: { duration: 4, text: "Breathe In", color: "from-blue-400 to-cyan-400" },
@@ -23,7 +43,7 @@ export function Breathing() {
     if (!isActive) return;
 
     const currentDuration = phaseConfig[phase].duration * 1000;
-    
+
     const timer = setTimeout(() => {
       if (phase === "inhale") {
         setPhase("hold");
@@ -33,12 +53,19 @@ export function Breathing() {
         setPhase("rest");
       } else {
         setPhase("inhale");
-        setCompletedCycles((prev) => prev + 1);
+        const newCycles = completedCycles + 1;
+        setCompletedCycles(newCycles);
+
+        // Show journal prompt when required cycles are completed
+        if (newCycles === requiredCycles) {
+          setIsActive(false);
+          setShowJournalPrompt(true);
+        }
       }
     }, currentDuration);
 
     return () => clearTimeout(timer);
-  }, [isActive, phase]);
+  }, [isActive, phase, completedCycles, requiredCycles]);
 
   const handleReset = () => {
     setIsActive(false);
@@ -57,7 +84,7 @@ export function Breathing() {
             Breathing Exercise
           </h1>
           <p className="text-purple-700">
-            Follow the circle and breathe mindfully
+            Complete {requiredCycles} cycles to help you feel better
           </p>
         </div>
 
@@ -121,10 +148,12 @@ export function Breathing() {
         {/* Stats */}
         <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-purple-100 text-center">
           <p className="text-sm text-purple-600 mb-1">Completed Cycles</p>
-          <p className="text-4xl font-bold text-purple-900">{completedCycles}</p>
+          <p className="text-4xl font-bold text-purple-900">
+            {completedCycles} / {requiredCycles}
+          </p>
           <p className="text-sm text-purple-600 mt-3">
-            {completedCycles > 0 && "✨ Great job! Keep going! ✨"}
-            {completedCycles >= 5 && " You're doing amazing! 💜"}
+            {completedCycles > 0 && completedCycles < requiredCycles && "✨ Great job! Keep going! ✨"}
+            {completedCycles >= requiredCycles && " 💜 Amazing work! You did it! 💜"}
           </p>
         </div>
 
@@ -134,20 +163,61 @@ export function Breathing() {
             💡 <strong>Tip:</strong> Find a quiet space, sit comfortably, and focus on your breath
           </p>
         </div>
-
-        {/* Continue Button - Shows after 3 cycles */}
-        {completedCycles >= 3 && (
-          <div className="flex justify-center animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <Button
-              onClick={() => navigate("/reflection")}
-              className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
-            >
-              Continue to Reflection
-              <ArrowRight className="w-5 h-5" />
-            </Button>
-          </div>
-        )}
       </div>
+
+      {/* Journal Recommendation Dialog */}
+      <Dialog open={showJournalPrompt} onOpenChange={setShowJournalPrompt}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl text-purple-900">
+              🌸 You did it! 🌸
+            </DialogTitle>
+            <DialogDescription className="text-purple-700 text-base">
+              Great job completing {requiredCycles} breathing cycles! Writing down your thoughts can help you process your feelings and feel even better.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl p-4 border border-purple-200">
+            <p className="text-sm text-purple-800 text-center">
+              ✨ Journaling has been shown to reduce stress and improve emotional well-being ✨
+            </p>
+          </div>
+
+          <DialogFooter className="flex gap-2 sm:gap-2">
+            <Button
+              onClick={() => {
+                setShowJournalPrompt(false);
+                navigate("/reflection");
+              }}
+              className="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white cursor-pointer"
+            >
+              <BookOpen className="w-4 h-4 mr-2" />
+              Go to Journal
+            </Button>
+            <Button
+              onClick={() => {
+                setShowJournalPrompt(false);
+                navigate("/quotes");
+              }}
+              variant="outline"
+              className="flex-1 border-purple-300 hover:bg-purple-50 cursor-pointer"
+            >
+              Skip to Quotes
+            </Button>
+            <Button
+              onClick={() => {
+                setShowJournalPrompt(false);
+                setIsActive(true);
+              }}
+              variant="outline"
+              className="flex-1 border-blue-300 hover:bg-blue-50 text-blue-600 cursor-pointer"
+            >
+              <Play className="w-4 h-4 mr-2" />
+              Keep Breathing
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
